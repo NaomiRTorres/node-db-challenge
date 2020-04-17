@@ -1,5 +1,7 @@
 
 exports.seed = function(knex) {
+  return knex('resources').del()
+    .then(function () {
       return knex('projects').insert([
         {
           id: 1, 
@@ -20,4 +22,5 @@ exports.seed = function(knex) {
           completed: false,
         }
       ]);
+    });  
 };
