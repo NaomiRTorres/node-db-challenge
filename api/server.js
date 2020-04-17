@@ -6,6 +6,6 @@ const server = express();
 
 server.use(express.json());
 
-server.unsubscribe('/api/projects', ProjectRouter);
+server.use('/api/projects', ProjectRouter);
 
 module.exports = server;
