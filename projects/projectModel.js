@@ -44,9 +44,19 @@ function add(project) {
     });
 }
 
-function addTask(){}
+function addTask(task){
+    return db('tasks')
+    .insert(task)
+    .then(ids => {
+        return getById(ids[0]);
+    });
+}
 
-function addResource(){}
+function addResource(resource){
+    return db('resources')
+    .insert(resource)
+    .then(ids => ({id: ids[0] }));
+}
 
 function update(changes, id) {
     return db('projects')

@@ -99,26 +99,14 @@ router.post('/', (req, res) => {
 });
 
 router.post(':id/tasks', (req, res) => {
-    const taskData = req.body;
-    const { id } = req.params;
-
-    Projects.getById(id)
-    .then(project => {
-        if (project){
-            Projects.add(taskData,id)
-            .then(task => {
-                res.status(201).json(task);
-            });
-        } else {
-            res.status(404).json({
-                message: 'Could not find project with that id'
-            });
-        };
+    Projects.addTask({...req.body, project_id: req.params.id })
+    .then(task => {
+        res.status(200).json(task)
     })
     .catch(error => {
         console.log(error);
         res.status(500).json({
-            message: 'Failed to create a new task'
+            errorMessage: 'error adding task'
         });
     });
 });
