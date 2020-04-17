@@ -4,34 +4,34 @@ exports.seed = function(knex) {
   return knex('tasks').del()
     .then(function () {
       // Inserts seed entries
-      return knex('taks').insert([
+      return knex('tasks').insert([
         {
           id: 1,
           project_id: 1,
-          description: 'task descriptions 1',
+          task_description: 'task descriptions 1',
           notes: 'the task notes',
-          completed: false
+          completed_task: false
           },
         {
           id: 2,
           project_id: 1,
-          description: 'task description 2',
+          task_description: 'task description 2',
           notes: 'task notes 2',
-          completed: false
+          completed_task: false
         },
         {
           id: 3,
           project_id: 2,
-          description: 'task description 3',
+          task_description: 'task description 3',
           notes: 'task notes 3',
-          completed: false
+          completed_task: false
         },
         {
           id: 4,
           project_id: 3,
-          description: 'task description 4',
+          task_description: 'task description 4',
           notes: 'task notes 4',
-          completed: false
+          completed_task: false
         }
       ]);
     });

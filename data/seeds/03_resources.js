@@ -8,20 +8,20 @@ exports.seed = function(knex) {
         {
           id: 1,
           project_resource_id: 3,
-          name: 'Lambda Student',
-          description: 'a soon to be hired developer'
+          resource_name: 'Lambda Student',
+          res_description: 'a soon to be hired developer'
         },
         {
           id: 2, 
           project_resource_id: 2,
-          name: 'MacBook Pro',
-          description: 'an amazing and expensive laptop'
+          resource_name: 'MacBook Pro',
+          res_description: 'an amazing and expensive laptop'
         },
         {
           id: 3, 
           project_resource_id: 1,
-          name: 'Conference Room',
-          description: 'a room to use for conferences'
+          resource_name: 'Conference Room',
+          res_description: 'a room to use for conferences'
         }
       ]);
     });
