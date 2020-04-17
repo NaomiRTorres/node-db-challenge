@@ -67,7 +67,7 @@ router.get('/:id/resources', (req, res) => {
     Projects.getResources(id)
     .then(resources => {
         if(resources.length){
-            res.json(resources);
+            res.status(200).json(resources);
         } else {
             res.status(404).json({
                 message: 'Could not find any resources for this id'
@@ -98,37 +98,30 @@ router.post('/', (req, res) => {
     });
 });
 
-router.post(':id/tasks', (req, res) => {
-    Projects.addTask({...req.body, project_id: req.params.id })
+router.post('/:id/tasks', (req, res) => {
+    const taskData = req.body;
+
+    Projects.addTask(taskData)
     .then(task => {
-        res.status(200).json(task)
+        res.status(201).json(task);
     })
     .catch(error => {
         console.log(error);
         res.status(500).json({
-            errorMessage: 'error adding task'
+            message: 'Failed to create new task'
         });
     });
 });
 
 router.post('/:id/resources', (req, res) => {
     const resData = req.body;
-    const { id } = req.params;
 
-    Projects.getById(id)
-    .then(project => {
-        if(project){
-            Projects.add(resData, id)
-            .then(resource => {
-                res.status(201).json(resource)
-            });
-        } else {
-            res.status(404).json({
-                message: 'Could not find project with that id'
-            });
-        };
+    Projects.addResource(resData)
+    .then(resource => {
+        res.status(201).json(resource);
     })
     .catch(error => {
+        console.log(error);
         res.status(500).json({
             message: 'Failed to create new resource'
         });
@@ -161,6 +154,58 @@ router.put('/:id', (req, res) => {
         });
     });
 });
+
+router.put('/:id/tasks/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    Projects.getById(id)
+    .then(task => {
+        if(task) {
+            Projects.update(changes, id)
+            .then(updatedTask => {
+                res.json(updatedTask);
+            });
+        } else {
+            res.status(404).json({
+                message: 'Could not find task you were looking for'
+            });
+        };
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            message: 'Failed to update task'
+        });
+    });
+});
+
+router.put('/:id/resources/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    Projects.getById(id)
+    .then(resource => {
+        if(resource) {
+            Projects.update(changes, id)
+            .then(updatedResource => {
+                res.json(updatedResource);
+            });
+        } else {
+            res.status(404).json({
+                message: 'Could not find resource you were looking for'
+            });
+        };
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            message: 'Failed to update resource'
+        });
+    });
+});
+
+
 
 // DELETES
 router.delete(':id', (req, res) => {

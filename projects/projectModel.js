@@ -31,9 +31,9 @@ function getTasks(id) {
 
 function getResources(id){
     return db('resources as r')
-    .join('project as p', 'p.id', 'r.resource_project_id')
+    .join('projects as p', 'p.id', 'r.project_resource_id')
     .select('r.id', 'r.resource_name', 'p.project_name as name')
-    .where('r.resource_project_id', id);
+    .where('r.project_resource_id', id);
 }
 
 function add(project) {
@@ -55,7 +55,9 @@ function addTask(task){
 function addResource(resource){
     return db('resources')
     .insert(resource)
-    .then(ids => ({id: ids[0] }));
+    .then(ids => {
+        return getById(ids[0]);
+    });
 }
 
 function update(changes, id) {
