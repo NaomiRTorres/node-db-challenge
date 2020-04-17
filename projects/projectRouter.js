@@ -208,7 +208,7 @@ router.put('/:id/resources/:id', (req, res) => {
 
 
 // DELETES
-router.delete(':id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
     Projects.remove(id)
@@ -225,6 +225,48 @@ router.delete(':id', (req, res) => {
         console.log(error);
         res.status(500).json({
             message: 'Failed to delete project'
+        });
+    });
+});
+
+router.delete('/:id/tasks/:id', (req, res) => {
+    const { id } = req.params;
+
+    Projects.remove(id)
+    .then(deleted => {
+        if(deleted){
+            res.status({ removed: deleted });
+        } else {
+            res.status(404).json({
+                message: 'Could not find task with given id'
+            });
+        };    
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            message: 'Failed to delete project task'
+        });
+    });
+});
+
+router.delete('/:id/resources/:id', (req, res) => {
+    const { id } = req.params;
+
+    Projects.remove(id)
+    .then(deleted => {
+        if(deleted){
+            res.status({ removed: deleted });
+        } else {
+            res.status(404).json({
+                message: 'Could not find resource with given id'
+            });
+        };    
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            message: 'Failed to delete project resource'
         });
     });
 });
